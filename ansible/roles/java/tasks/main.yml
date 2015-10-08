@@ -1,18 +1,25 @@
 ---
+# Install Oracle Java 8 as described http://ubuntuhandbook.org/index.php/2014/09/install-oracle-java-ubuntu-1410/
+# See also https://wiki.duraspace.org/display/ISLANDORA715/Djatoka
 
-- name: Install WebUpd8 Team Java PPA (for Oracle Java)
-  apt_repository: repo='ppa:webupd8team/java' state=present
-  when: java_needs_oracle
+- name: Add Java apt repo
+  apt_repository: repo='ppa:webupd8team/java' state=present update_cache=yes
 
-- name: Remove WebUpd8 Team Java PPA (for Oracle Java)
-  apt_repository: repo='ppa:webupd8team/java' state=present
-  when: java_cleanup and not java_needs_oracle
+- name: Accept Oracle license
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
 
-- name: Install java packages
+- name: Install Oracle Java 8
+  apt: name=oracle-java8-installer state=present
+
+- name: Set default Java
+  apt: name=oracle-java8-set-default state=present
+
+- name: Install Maven
+  apt: name=maven state=present
+
+- name: Create symlink for those who looks for java-7 to our version
   sudo: yes
-  apt:
-    pkg: "{{ item }}"
-    state: latest
-  with_items:
-    - maven
-    - openjdk-7-jdk
+  file:
+    path: "/usr/lib/jvm/java-7-oracle"
+    src: "/usr/lib/jvm/java-8-oracle"
+    state: link

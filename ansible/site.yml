@@ -2,7 +2,7 @@
 - hosts: all
   sudo:  yes
   vars:
-    create_netrc: yes
+    create_netrc: no
     server_ip: localhost
     doc_root: /var/www/web
     mysql_host: localhost
@@ -13,10 +13,6 @@
       home: /var/lib/tomcat7
       source_path: /usr/share/tomcat7
       user: tomcat7
-    java_packages:
-      - oracle-java7-set-default
-      - oracle-java7-installer
-      - openjdk-7-jdk
     mysql_users:
       - name: drupal
         pass: drupal
@@ -26,7 +22,7 @@
         priv: "fedora3.*:ALL"
     drupal:
       git_repo: http://git.drupal.org/project/drupal.git
-      git_version: 7.34
+      git_version: 7.39
       drush_make: no
       docroot: 
       database: d_islandora
@@ -35,23 +31,24 @@
       admin_password: drupal
       install_profile: standard
     fedora:
-      version: 3.8.0
+      version: 3.8.1
       database: fedora3
       database_username: fedora_admin
       database_password: fedora.admin
       install_path: /opt/fedora
       admin_user: fedoraAdmin
       admin_password: fedoraAdmin
-  vars_prompt:
-    - name: "netrc_domain"
-      prompt: "Enter netrc domain (press enter if not using)"
-    - name: "netrc_user"
-      prompt: "Enter netrc user (press enter if not using)"
-    - name: "netrc_pass"
-      prompt: "Enter netrc password (press enter if not using)"
-      private: yes
+#  vars_prompt:
+#    - name: "netrc_domain"
+#      prompt: "Enter netrc domain (press enter if not using)"
+#    - name: "netrc_user"
+#      prompt: "Enter netrc user (press enter if not using)"
+#    - name: "netrc_pass"
+#      prompt: "Enter netrc password (press enter if not using)"
+#      private: yes
   roles:
     - init
+    - java
     - tomcat7
     - apache2
     - mysql

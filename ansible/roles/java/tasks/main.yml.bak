@@ -1,0 +1,14 @@
+---
+
+- name: Install WebUpd8 Team Java PPA (for Oracle Java)
+  apt_repository: repo='ppa:webupd8team/java' state=present
+
+- name: Install java packages
+  sudo: yes
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - maven
+    - oracle-java8-installer
+    - oracle-java8-set-default

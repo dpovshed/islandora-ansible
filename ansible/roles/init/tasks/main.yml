@@ -28,8 +28,6 @@
     - sendmail
     - zip
     - unzip
-    - openjdk-7-jdk
-    - maven
 
 - name: Update apt again
   sudo: yes
