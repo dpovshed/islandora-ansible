@@ -5,11 +5,11 @@
   git:
     repo: "{{ djatoka.git_repo }}"
     dest: "{{ djatoka.install_path }}"
-    # version: "{{ djatoka.git_version }}"
+    version: "{{ djatoka.git_version }}"
 
 - name: Install freelib-djatoka
   sudo: yes
-  command: mvn install
+  command: mvn install -DskipTests
   args:
     chdir: "{{ djatoka.install_path }}"
 

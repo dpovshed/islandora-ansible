@@ -1,5 +1,4 @@
 ---
-
 dependencies:
 - { role: tomcat7 }
 - { role: solr }
